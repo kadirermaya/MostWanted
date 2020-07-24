@@ -40,6 +40,7 @@ function mainMenu(person, people){
     case "info":
     // TODO: get person's info
     displayPerson(person);
+    mainMenu(person);
     break;
     case "family":
     // TODO: get person's family
@@ -74,14 +75,19 @@ function searchByName(people){
 }
 
 function selectTrait(){
-  let trait = promptFor("Which Trait would you like to search by?\n Gender, Height, Weight, Eye Color, Occupation", chars)
+  let trait = promptFor("Which Trait would you like to search by?\n Gender, Height, Weight, Eye Color, Occupation, None", chars)
   return trait;
 }
 
 
 function searchByTraits(people) {
-  let trait = selectTrait().toLowerCase();
+
   let display;
+  let testing = true;
+  
+
+  while(testing){
+    let trait = selectTrait().toLowerCase();
   switch (trait) {
     case "gender":
       display = searchGender(people);
@@ -106,16 +112,21 @@ function searchByTraits(people) {
     default:
       break;
   }
-  let foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  // TODO: find the person using the name they entered
-  return foundPerson;
+  people = display;
+  testing = twoCriterias(people);
+}
+  mainMenu(people);
+}
+
+
+function twoCriterias(display){
+  if(display.length > 1){
+    alert("Please enter another search criteria!");
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
 function searchGender(people) {
