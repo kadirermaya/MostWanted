@@ -225,7 +225,9 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayDescendants(person, people, desList){
+var desList = [];
+
+function displayDescendants(person, people){
   
   let foundPeople = people.filter(function(el) {
     if (person[0].id === el.parents[0] || person[0].id === el.parents[1] ) {
@@ -237,7 +239,7 @@ function displayDescendants(person, people, desList){
     }
   })
  for(var i=0; i < desList.length; i++ ){
-   displayDescendants(desList[i],people, desList);
+   displayDescendants(desList[i],people);
 
  }
  return desList;
