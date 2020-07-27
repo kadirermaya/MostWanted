@@ -46,7 +46,7 @@ function mainMenu(person, people){
     // TODO: get person's family
     break;
     case "descendants":
-    // TODO: get person's descendants
+    displayPeople(displayDescendants(person,people))
     break;
     case "restart":
     app(people); // restart
@@ -224,6 +224,26 @@ function displayPerson(person){
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
+
+function displayDescendants(person, people, desList){
+  
+  let foundPeople = people.filter(function(el) {
+    if (person[0].id === el.parents[0] || person[0].id === el.parents[1] ) {
+      desList.push(el);
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+ for(var i=0; i < desList.length; i++ ){
+   displayDescendants(desList[i],people, desList);
+
+ }
+ return desList;
+}
+
+
 
 // function that prompts and validates user input
 function promptFor(question, valid){
