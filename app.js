@@ -226,11 +226,11 @@ function displayPerson(person){
 }
 
 var desList = [];
+var counter = 0;
+function displayDescendants(person, people) {
 
-function displayDescendants(person, people){
-  
-  let foundPeople = people.filter(function(el) {
-    if (person.id === el.parents[0] || person.id === el.parents[1] ) {
+  let foundPeople = people.filter(function (el) {
+    if (person.id === el.parents[0] || person.id === el.parents[1]) {
       desList.push(el);
       return true;
     }
@@ -238,11 +238,11 @@ function displayDescendants(person, people){
       return false;
     }
   })
- for(var i=0; i < desList.length; i++ ){
-   displayDescendants(desList[i],people);
-
- }
- return desList;
+  for (var i = counter; i < desList.length; i++) {
+    counter++;
+    displayDescendants(desList[i], people);
+  }
+  return desList;
 }
 
 
