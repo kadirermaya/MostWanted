@@ -43,12 +43,12 @@ function mainMenu(person, people){
     mainMenu(person,people);
     break;
     case "family":
-      displayPeople(findParents(person,people));
-     displayPeople(findSpouse(person, people));
-      displayPeople(findSiblings(person,people));
+      displayFamilyInfo(person,people);
+      mainMenu(person,people);
       break;
     case "descendants":
-    displayPeople(displayDescendants(person,people))
+    displayPeople(displayDescendants(person,people));
+    mainMenu(person,people);
     break;
     case "restart":
     app(people); // restart
@@ -85,7 +85,7 @@ function selectTrait(){
 function searchByTraits(people) {
 
   let display;
-  let testing = true;
+  let searchAgain = true;
   
 
   while(testing){
@@ -115,7 +115,7 @@ function searchByTraits(people) {
       break;
   }
   people = display;
-  testing = multiCriteria(people);
+  searchAgain = multiCriteria(people);
 }
   mainMenu(people[0]);
 }
@@ -251,14 +251,13 @@ function displayDescendants(person, people) {
 
 function findParents(person, people) {
   if (person.parents.length == 0) {
-    let findParent = null;
+    return null;
 
   }
   else if (person.parents.length == 1) {
 
     let findParent = people.filter(function (el) {
       if (person.parents[0] === el.id) {
-        parent = el;
         return true;
       }
       else {
@@ -294,29 +293,60 @@ return findSpouse;
 }
 
 function findSiblings(person, people){
-    let findSiblings  = people.filter(function (el){
-      if ((person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1]) || (person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1]) ){
+  let findSiblings;
+  if (person.parents[0]!= undefined) {
+    findSiblings  += people.filter(function (el){
+      if (person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1]) {
         return true;
       }
       else{
         return false;
       }
-    })
-  return findSiblings;
+  })
 }
-
-
-
-function displayFamilyInfo(person, people) {
-  let familyMembers = people.filter(function (el) {
-    if (person.id === el.parents[0] || person.id === el.parents[1]) {
-      desList.push(el);
+if (person.parents[1]!= undefined) {
+  findSiblings  += people.filter(function (el){
+    if (person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1]) {
       return true;
     }
-    else {
+    else{
       return false;
     }
-  })
+})
+}
+return findSiblings;
+}
+
+function displayFamilyInfo(person, people) {
+  let print = "";
+  let parents = findParents(person,people);
+  let spouse = findSpouse(person, people);
+  let siblings = findSiblings(person, people);
+
+  if (parents != null){
+    parents.forEach(function(parent){
+      print +=  "Parent(s): " + parent.firstName + " " + parent.lastName + "\n";
+    })
+  }
+  else{
+    print += "Parentz: None\n";
+  }
+
+  if(spouse != undefined){
+    print += "Spousez:" + spouse.firstName + " " + spouse.lastName + "\n";
+  }
+  else{
+    print += "Spousez: None\n";
+  }
+if (siblings != null){
+  siblings.forEach(function(sibling){
+      print += "Siblings(s): " + sibling.firstName + " " + sibling.lastName + "\n";
+    })
+}
+else{
+  print += "Siblingz: None";
+}
+  alert(print);
 }
 
 // function that prompts and validates user input
