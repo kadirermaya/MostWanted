@@ -43,8 +43,10 @@ function mainMenu(person, people){
     mainMenu(person,people);
     break;
     case "family":
-    // TODO: get person's family
-    break;
+      displayPeople(findParents(person,people));
+     displayPeople(findSpouse(person, people));
+      displayPeople(findSiblings(person,people));
+      break;
     case "descendants":
     displayPeople(displayDescendants(person,people))
     break;
@@ -246,6 +248,76 @@ function displayDescendants(person, people) {
 }
 
 
+
+function findParents(person, people) {
+  if (person.parents.length == 0) {
+    let findParent = null;
+
+  }
+  else if (person.parents.length == 1) {
+
+    let findParent = people.filter(function (el) {
+      if (person.parents[0] === el.id) {
+        parent = el;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    )}
+
+  else {
+    let findParent = people.filter(function (el) {
+      if (person.parents[0] === el.id || person.parents[1] === el.id ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+      })
+}
+  return findParent;
+}
+
+function findSpouse(person, people){
+let findSpouse = people.filter(function (el) {
+  if (person.currentSpouse === el.id){
+    return true;
+    
+  }
+  else{
+    return false;
+}
+})
+return findSpouse;
+}
+
+function findSiblings(person, people){
+    let findSiblings  = people.filter(function (el){
+      if ((person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1]) || (person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1]) ){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+  return findSiblings;
+}
+
+
+
+function displayFamilyInfo(person, people) {
+  let familyMembers = people.filter(function (el) {
+    if (person.id === el.parents[0] || person.id === el.parents[1]) {
+      desList.push(el);
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+}
 
 // function that prompts and validates user input
 function promptFor(question, valid){
