@@ -333,7 +333,7 @@ function displayFamilyInfo(person, people) {
   }
 
   if(spouse != undefined){
-    print += "Spousez:" + spouse.firstName + " " + spouse.lastName + "\n";
+    print += "Spousez:" + spouse[0].firstName + " " + spouse[0].lastName + "\n";
   }
   else{
     print += "Spousez: None\n";
