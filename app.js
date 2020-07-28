@@ -250,13 +250,14 @@ function displayDescendants(person, people) {
 
 
 function findParents(person, people) {
+ let findParent;
   if (person.parents.length == 0) {
     return null;
 
   }
   else if (person.parents.length == 1) {
 
-    let findParent = people.filter(function (el) {
+      findParent = people.filter(function (el) {
       if (person.parents[0] === el.id) {
         return true;
       }
@@ -267,7 +268,7 @@ function findParents(person, people) {
     )}
 
   else {
-    let findParent = people.filter(function (el) {
+    findParent = people.filter(function (el) {
       if (person.parents[0] === el.id || person.parents[1] === el.id ) {
         return true;
       }
@@ -292,29 +293,22 @@ let findSpouse = people.filter(function (el) {
 return findSpouse;
 }
 
-function findSiblings(person, people){
-  let findSiblings;
-  if (person.parents[0]!= undefined) {
-    findSiblings  += people.filter(function (el){
-      if (person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1]) {
-        return true;
-      }
-      else{
-        return false;
-      }
-  })
-}
-if (person.parents[1]!= undefined) {
-  findSiblings  += people.filter(function (el){
-    if (person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1]) {
-      return true;
-    }
-    else{
-      return false;
-    }
-})
-}
-return findSiblings;
+function findSiblings(person, people) {
+  for (let i = 0; i < person.parents.length; i++) {
+    if (person.parents[i] != undefined) {
+      var findSiblings = people.filter(function (el) {
+        if ((person.parents[i] === el.parents[0] || person.parents[i] === el.parents[1]) && person.id !== el.id) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      })
+    
+  }
+  
+  }
+  return findSiblings;
 }
 
 function displayFamilyInfo(person, people) {
